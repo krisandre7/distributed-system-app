@@ -9,11 +9,11 @@ const endpoint = "/api/movies";
 
 describe(endpoint, () => {
   beforeAll(async () => {
-    await db.connect();
+    await db.connect_databases();
   });
 
   afterAll(async () => {
-    await db.close();
+    await db.close(0);
   });
 
   describe("GET /", () => {
