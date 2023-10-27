@@ -10,29 +10,31 @@ services:
 
   backend:
     depends_on:
-      - db
-      - db2
+      - mongo1
+      - mongo2
     build: ./backend
     ports:
       - 3001:3001
     environment:
-      DB_URL: mongodb://db/vidly
-      DB2_URL: mongodb://db/vidly2
+      DB_URL: mongodb://mongo1:27017/db1
+      DB2_URL: mongodb://mongo2:27017/db2
     command: ./docker-entrypoint.sh
 
-  db:
+  mongo1:
     image: mongo:4.0-xenial
+    container_name: mongo1
     ports:
       - 27017:27017
     volumes:
-      - vidly:/data/db
+      - vidly:/data/mongo1
 
-  db2:
+  mongo2:
     image: mongo:4.0-xenial
+    container_name: mongo2
     ports:
       - 27018:27017
     volumes:
-      - vidly2:/data/db
+      - vidly2:/data/mongo1
 
 volumes:
   vidly:

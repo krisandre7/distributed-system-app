@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "db:up": "migrate-mongo up",
+    "mongo1:up": "migrate-mongo up -f 'migrate-mongo-config-mongo1.js'",
+    "mongo2:up": "migrate-mongo up -f 'migrate-mongo-config-mongo2.js'",
     "start": "nodemon --ignore './tests' index.js",
     "test": "jest --watchAll --colors"
   },

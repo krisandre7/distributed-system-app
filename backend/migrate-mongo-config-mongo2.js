@@ -1,10 +1,8 @@
-const db = require("./db");
-
 module.exports = {
   mongodb: {
-    url: db.url,
+    url: "mongodb://mongo2:27017",
 
-    databaseName: "vidly",
+    databaseName: "db2",
 
     options: {
       useNewUrlParser: true, // removes a deprecation warning when connecting
