@@ -1,6 +1,6 @@
 const databases = {
-    MONGO1: '/db1',
-    MONGO2: '/db2'
+    MONGO1: '/MONGO1',
+    MONGO2: '/MONGO2'
 };
 
 export default databases;

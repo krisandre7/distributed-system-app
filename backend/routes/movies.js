@@ -8,6 +8,7 @@ const router = express.Router();
 router.get("/:db/", async (req, res) => {
 
   var db = databases[req.params.db];
+  console.log(db);
 
   const movies = await Movie.find().sort("title");
   res.send(movies);

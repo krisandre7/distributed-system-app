@@ -17,7 +17,6 @@ function App() {
 
   const fetchMovies = async (database) => {
     try {
-      console.log("http://localhost:3001/api" + database);
       const { movies } = await api.get(database);
       setMovies(database, movies);
     } catch (error) {

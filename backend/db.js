@@ -9,9 +9,10 @@ const connection_config = {
 
 const connect_databases = async () => {
   await mongoose.connect(dbUrl, connection_config);
+  console.log("Connected to MongoDB: " + dbUrl);
 
   mongoose.createConnection(db2Url, connection_config);
-  console.log("Connected to MongoDB: " + dbUrl);
+  console.log("Connected to MongoDB: " + db2Url);
 };
 
 const close = (index) => mongoose.connections[index].close();
