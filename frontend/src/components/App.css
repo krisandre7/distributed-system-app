@@ -1,5 +1,10 @@
 .App {
-  width: 30%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.Form {
+  width: 15%;
 }
 
 .Error {

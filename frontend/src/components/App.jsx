@@ -58,8 +58,8 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <div className="App">
+    <div className="App">
+      <div className="Form">
         <MovieForm onAddMovie={handleAddMovie} database={databases.MONGO1} />
         {error && (
           <p role="alert" className="Error">
@@ -68,7 +68,7 @@ function App() {
         )}
         <MovieList movies={mongo1Movies} onDeleteMovie={handleDeleteMovie} database={databases.MONGO1} />
       </div>
-      <div className="App">
+      <div className="Form">
         <MovieForm onAddMovie={handleAddMovie} database={databases.MONGO2} />
         {error && (
           <p role="alert" className="Error">
@@ -76,6 +76,9 @@ function App() {
           </p>
         )}
         <MovieList movies={mongo2Movies} onDeleteMovie={handleDeleteMovie} database={databases.MONGO2} />
+      </div>
+      <div className="Form">
+        <select name="" id=""></select>
       </div>
     </div>
   );
