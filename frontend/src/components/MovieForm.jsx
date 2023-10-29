@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Input from "./Input";
 
-function MovieForm({ onAddMovie }) {
+function MovieForm({ onAddMovie, database }) {
   const [title, setTitle] = useState("");
 
   const handleChange = (e) => setTitle(e.target.value);
@@ -11,7 +11,7 @@ function MovieForm({ onAddMovie }) {
 
     if (!title) return;
 
-    onAddMovie(title);
+    onAddMovie(title, database);
     setTitle("");
   };
 

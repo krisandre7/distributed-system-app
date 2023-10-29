@@ -2,57 +2,70 @@ import React, { useState, useEffect } from "react";
 import MovieForm from "./MovieForm";
 import MovieList from "./MovieList";
 import api from "../services/api";
+import databases from "../enums/databases";
+
 import "./App.css";
 
 function App() {
-  const moviesEndpoint = "/movies";
-  const [movies, setMovies] = useState([]);
+  const [mongo1Movies, setMongo1Movies] = useState([]);
+  const [mongo2Movies, setMongo2Movies] = useState([]);
   const [error, setError] = useState();
 
-  const fetchMovies = async () => {
+  function setMovies(database, data) {
+    return database == databases.MONGO1 ? setMongo1Movies(data): setMongo2Movies(data) 
+  };
+
+  const fetchMovies = async (database) => {
     try {
-      const { data } = await api.get(moviesEndpoint);
-      setMovies(data);
+      console.log("http://localhost:3001/api" + database);
+      const { movies } = await api.get(database);
+      setMovies(database, movies);
     } catch (error) {
-      setError("Could not fetch the movies!");
+      setError("Could not fetch movies!");
     }
   };
 
-  const handleAddMovie = async (title) => {
+  const handleAddMovie = async (title, database) => {
     try {
       const movie = { _id: Date.now(), title };
-      setMovies([...movies, movie]);
+      setMovies(database, [...mongo1Movies, movie]);
 
-      const { data: savedMovie } = await api.create(moviesEndpoint, movie);
+      const { data: savedMovie } = await api.create(database, movie);
 
-      setMovies([...movies, savedMovie]);
+      setMovies(database, [...mongo1Movies, savedMovie]);
     } catch (error) {
-      setError("Could not save the movie!");
-      setMovies(movies);
+      setError("Could not save the movie in Mongo1!");
+      setMovies(database, database == databases.MONGO1 ? mongo1Movies : mongo2Movies);
     }
   };
 
-  const handleDeleteMovie = async (movie) => {
+  const handleDeleteMovie = async (movie, database) => {
     try {
-      setMovies(movies.filter((m) => m !== movie));
-      await api.remove(moviesEndpoint + "/" + movie._id);
+      const filteredMovies = database == databases.MONGO1 ? 
+        mongo1Movies.filter((m) => m !== movie) : mongo2Movies.filter((m) => m !== movie)
+
+      setMovies(database, filteredMovies);
+      await api.remove(database + "/" + movie._id);
     } catch (error) {
-      setError("Could not delete the movie!");
-      setMovies(movies);
+      setError("Could not delete the movie on Mongo1!");
+      setMovies(database, database == databases.MONGO1 ? mongo1Movies : mongo2Movies);
     }
   };
 
-  useEffect(() => fetchMovies(), []);
+  useEffect(() => {
+    fetchMovies(databases.MONGO1);
+    fetchMovies(databases.MONGO2);
+  }, []);
 
   return (
     <div className="App">
-      <MovieForm onAddMovie={handleAddMovie} />
+      <MovieForm onAddMovie={handleAddMovie} database={databases.MONGO1} />
       {error && (
         <p role="alert" className="Error">
           {error}
         </p>
       )}
-      <MovieList movies={movies} onDeleteMovie={handleDeleteMovie} />
+      <MovieList movies={mongo1Movies} onDeleteMovie={handleDeleteMovie} database={databases.MONGO1} />
     </div>
   );
 }
