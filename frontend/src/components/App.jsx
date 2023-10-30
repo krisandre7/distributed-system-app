@@ -3,6 +3,7 @@ import MovieForm from "./MovieForm";
 import MovieList from "./MovieList";
 import api from "../services/api";
 import databases from "../enums/databases";
+import MovieComparison from "./MovieComparison";
 
 import "./App.css";
 
@@ -60,6 +61,7 @@ function App() {
   return (
     <div className="App">
       <div className="Form">
+        <h2>Mongo 1</h2>
         <MovieForm onAddMovie={handleAddMovie} database={databases.MONGO1} />
         {error && (
           <p role="alert" className="Error">
@@ -69,6 +71,7 @@ function App() {
         <MovieList movies={mongo1Movies} onDeleteMovie={handleDeleteMovie} database={databases.MONGO1} />
       </div>
       <div className="Form">
+        <h2>Mongo 2</h2>
         <MovieForm onAddMovie={handleAddMovie} database={databases.MONGO2} />
         {error && (
           <p role="alert" className="Error">
@@ -78,7 +81,7 @@ function App() {
         <MovieList movies={mongo2Movies} onDeleteMovie={handleDeleteMovie} database={databases.MONGO2} />
       </div>
       <div className="Form">
-        <select name="" id=""></select>
+        <MovieComparison mongo1Movies={mongo1Movies} mongo2Movies={mongo2Movies}></MovieComparison>
       </div>
     </div>
   );

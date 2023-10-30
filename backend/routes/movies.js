@@ -19,10 +19,12 @@ router.get("/:db/", async (req, res) => {
   res.send(movies);
 });
 
-router.get("/:db/:id", validateId, async (req, res) => {
+router.get("/:db/:title", async (req, res) => {
   const MovieModel = getMovieModel(req.params.db);
 
-  const movie = await MovieModel.findById(req.params.db, req.params.id);
+  const movies = await MovieModel.find().sort("title");
+  const movie = movies.find((movie) => movie.title.toLowerCase() == req.params.title.toLowerCase());
+
   if (!movie) return res.status(404).send();
   res.send(movie);
 });
